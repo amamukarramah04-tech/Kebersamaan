@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0D0B1E">
+<title id="site-title">Kado Digital Untukmu 💝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@400;600;700&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --midnight: #0D0B1E;
+  --deep: #160E2E;
+  --rose: #F2A0B8;
+  --rose-deep: #D4607E;
+  --rose-soft: rgba(242,160,184,0.15);
+  --gold: #E8C97D;
+  --gold-soft: rgba(232,201,125,0.2);
+  --lavender: #C8B8E8;
+  --cream: #FDF6F0;
+  --white: #FFFFFF;
+  --overlay: rgba(13,11,30,0.75);
+  --font-display: 'Cormorant Garant', serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-body: 'Nunito', sans-serif;
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-cinematic: cubic-bezier(0.76, 0, 0.24, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { font-family: var(--font-body); background: var(--midnight); color: var(--cream); overflow: hidden; width: 100%; height: 100dvh; user-select: none; }
+.screen { position: fixed; inset: 0; width: 100%; height: 100dvh; opacity: 0; visibility: hidden; transition: opacity 0.8s var(--ease-smooth), visibility 0.8s; z-index: 10; }
+.screen.active { opacity: 1; visibility: visible; }
+.screen.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* LOADING */
+#loading-screen { z-index: 100; background: var(--midnight); display: flex; align-items: center; justify-content: center; }
+.loading-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, #1E0A2E 0%, #0D0B1E 60%); }
+#loading-petals { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.loading-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+.loading-flower { position: relative; width: 80px; height: 80px; animation: flowerSpin 8s linear infinite; }
+@keyframes flowerSpin { to { transform: rotate(360deg); } }
+.flower-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: radial-gradient(circle, var(--gold), var(--rose)); border-radius: 50%; z-index: 2; box-shadow: 0 0 20px var(--gold); }
+.petal { position: absolute; width: 28px; height: 42px; background: linear-gradient(180deg, var(--rose) 0%, rgba(242,160,184,0.3) 100%); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; top: 50%; left: 50%; transform-origin: bottom center; margin-left: -14px; margin-top: -42px; }
+.petal.p1 { transform: rotate(0deg) translateY(-10px); }
+.petal.p2 { transform: rotate(45deg) translateY(-10px); }
+.petal.p3 { transform: rotate(90deg) translateY(-10px); }
+.petal.p4 { transform: rotate(135deg) translateY(-10px); }
+.petal.p5 { transform: rotate(180deg) translateY(-10px); }
+.petal.p6 { transform: rotate(225deg) translateY(-10px); }
+.petal.p7 { transform: rotate(270deg) translateY(-10px); }
+.petal.p8 { transform: rotate(315deg) translateY(-10px); }
+.loading-text { font-family: var(--font-script); font-size: 1.3rem; color: var(--rose); letter-spacing: 0.05em; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+.loading-bar { width: 200px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; }
+.loading-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--rose), var(--gold)); border-radius: 99px; transition: width 0.3s ease; box-shadow: 0 0 10px var(--rose); }
+
+/* OPENING */
+#opening-screen { background: linear-gradient(160deg, #160E2E 0%, #0D0B1E 50%, #1A0818 100%); display: flex; align-items: center; justify-content: center; z-index: 20; }
+#opening-petals { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.opening-overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(242,160,184,0.08) 0%, transparent 70%); pointer-events: none; }
+.opening-content { position: relative; z-index: 2; text-align: center; padding: 40px 24px; max-width: 440px; width: 100%; }
+.opening-badge { font-family: var(--font-body); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; animation: fadeUp 1s 0.5s var(--ease-smooth) forwards; }
+.opening-title { font-family: var(--font-display); font-size: clamp(2.4rem, 8vw, 3.6rem); font-weight: 300; line-height: 1.2; color: var(--cream); margin-bottom: 16px; opacity: 0; animation: fadeUp 1s 0.8s var(--ease-smooth) forwards; }
+.opening-title em { font-style: italic; color: var(--rose); }
+.opening-recipient { font-family: var(--font-body); font-size: 0.9rem; color: rgba(253,246,240,0.6); margin-bottom: 8px; opacity: 0; animation: fadeUp 1s 1s var(--ease-smooth) forwards; }
+.opening-recipient span { font-family: var(--font-script); font-size: 1.3rem; color: var(--gold); }
+.opening-subtitle { font-size: 0.95rem; color: rgba(200,184,232,0.7); margin-bottom: 44px; line-height: 1.6; opacity: 0; animation: fadeUp 1s 1.1s var(--ease-smooth) forwards; }
+.open-gift-btn { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 18px 44px; background: linear-gradient(135deg, var(--rose-deep), var(--rose)); color: var(--cream); font-family: var(--font-body); font-size: 1rem; font-weight: 600; letter-spacing: 0.05em; border: none; border-radius: 60px; cursor: pointer; overflow: hidden; transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s ease; box-shadow: 0 8px 32px rgba(212,96,126,0.4); opacity: 0; animation: fadeUp 1s 1.3s var(--ease-smooth) forwards; }
+.open-gift-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 48px rgba(212,96,126,0.5); }
+.open-gift-btn:active { transform: translateY(0) scale(0.98); }
+.btn-icon { font-size: 1.2rem; animation: wiggle 2s ease-in-out infinite; }
+@keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
+.btn-glow { position: absolute; inset: -2px; border-radius: 60px; background: linear-gradient(135deg, var(--gold), var(--rose)); z-index: -1; opacity: 0; transition: opacity 0.3s; filter: blur(8px); }
+.open-gift-btn:hover .btn-glow { opacity: 0.6; }
+.opening-hint { margin-top: 20px; font-size: 0.75rem; color: rgba(200,184,232,0.4); opacity: 0; animation: fadeUp 1s 1.5s var(--ease-smooth) forwards; }
+.opening-decoration { position: absolute; inset: 0; pointer-events: none; }
+.deco-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(242,160,184,0.08); top: 50%; left: 50%; transform: translate(-50%, -50%); animation: ringPulse 4s ease-in-out infinite; }
+.deco-ring.r1 { width: 300px; height: 300px; animation-delay: 0s; }
+.deco-ring.r2 { width: 500px; height: 500px; animation-delay: 1s; opacity: 0.6; }
+.deco-ring.r3 { width: 700px; height: 700px; animation-delay: 2s; opacity: 0.3; }
+@keyframes ringPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.1; } }
+
+/* PIN */
+#pin-screen { background: linear-gradient(160deg, #160E2E 0%, #0D0B1E 100%); display: flex; align-items: center; justify-content: center; z-index: 30; }
+#pin-petals { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.pin-content { position: relative; z-index: 2; text-align: center; padding: 40px 24px; width: 100%; max-width: 360px; }
+.pin-icon { font-size: 3rem; margin-bottom: 16px; animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.pin-title { font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--cream); margin-bottom: 8px; }
+.pin-subtitle { font-size: 0.9rem; color: rgba(200,184,232,0.6); margin-bottom: 36px; }
+.pin-display { display: flex; gap: 16px; justify-content: center; margin-bottom: 12px; }
+.pin-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(242,160,184,0.4); background: transparent; transition: all 0.3s var(--ease-bounce); }
+.pin-dot.filled { background: var(--rose); border-color: var(--rose); box-shadow: 0 0 12px var(--rose); transform: scale(1.1); }
+.pin-error { font-family: var(--font-script); font-size: 1rem; color: var(--rose-deep); margin-bottom: 16px; opacity: 0; transition: opacity 0.3s; height: 24px; }
+.pin-error.show { opacity: 1; }
+.pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 280px; margin: 0 auto; }
+.key-btn { padding: 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(242,160,184,0.15); border-radius: 16px; color: var(--cream); font-family: var(--font-body); font-size: 1.3rem; font-weight: 500; cursor: pointer; transition: all 0.2s var(--ease-smooth); backdrop-filter: blur(10px); }
+.key-btn:hover { background: rgba(242,160,184,0.15); border-color: var(--rose); transform: scale(1.05); }
+.key-btn:active { transform: scale(0.95); background: rgba(242,160,184,0.25); }
+.key-clear { color: var(--rose); font-size: 1rem; }
+.key-submit { background: linear-gradient(135deg, var(--rose-deep), var(--rose)); border-color: transparent; color: white; }
+.pin-keypad.shake { animation: shake 0.5s var(--ease-smooth); }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 15% { transform: translateX(-10px); } 30% { transform: translateX(10px); } 45% { transform: translateX(-8px); } 60% { transform: translateX(8px); } 75% { transform: translateX(-5px); } 90% { transform: translateX(5px); } }
+
+/* INTRO */
+#intro-screen { background: var(--midnight); display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 40; }
+#intro-petals { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.curtain-left, .curtain-right { position: absolute; top: 0; width: 50%; height: 100%; background: var(--deep); z-index: 10; transition: transform 1.5s var(--ease-cinematic); }
+.curtain-left { left: 0; transform: translateX(0); }
+.curtain-right { right: 0; transform: translateX(0); }
+.curtain-left.open { transform: translateX(-100%); }
+.curtain-right.open { transform: translateX(100%); }
+.intro-content { position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 32px; padding: 40px 24px; text-align: center; opacity: 0; transition: opacity 1s 1s ease; }
+.intro-content.visible { opacity: 1; }
+.intro-photo-frame { position: relative; width: 200px; height: 200px; border-radius: 50%; }
+.photo-glow { position: absolute; inset: -20px; border-radius: 50%; background: radial-gradient(circle, var(--rose-soft) 0%, transparent 70%); animation: glowPulse 3s ease-in-out infinite; }
+@keyframes glowPulse { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; } }
+.intro-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid rgba(242,160,184,0.3); }
+.photo-border { position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(232,201,125,0.3); animation: borderSpin 10s linear infinite; }
+@keyframes borderSpin { to { transform: rotate(360deg); } }
+.intro-text { max-width: 320px; }
+.intro-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.intro-headline { font-family: var(--font-display); font-size: 2.5rem; font-weight: 300; color: var(--cream); line-height: 1.2; margin-bottom: 12px; }
+.intro-headline em { font-style: italic; color: var(--rose); }
+.intro-date { font-family: var(--font-script); font-size: 1.1rem; color: var(--gold); }
+.skip-btn { position: absolute; bottom: 32px; right: 24px; z-index: 20; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); padding: 10px 20px; border-radius: 40px; font-size: 0.85rem; cursor: pointer; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+.skip-btn:hover { background: rgba(242,160,184,0.2); color: var(--cream); }
+
+/* MAIN */
+#main-screen { background: var(--midnight); overflow-y: auto; overflow-x: hidden; height: 100dvh; scroll-behavior: smooth; z-index: 5; }
+
+/* MUSIC PLAYER */
+.music-player { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; align-items: center; gap: 12px; background: rgba(13,11,30,0.85); backdrop-filter: blur(20px); border: 1px solid rgba(242,160,184,0.2); border-radius: 50px; padding: 10px 16px; min-width: 240px; max-width: 340px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.music-info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.music-disc { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-deep), var(--midnight)); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; animation: discSpin 4s linear infinite paused; }
+.music-disc.playing { animation-play-state: running; }
+@keyframes discSpin { to { transform: rotate(360deg); } }
+.music-meta { display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+.music-title { font-size: 0.75rem; font-weight: 600; color: var(--cream); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music-artist { font-size: 0.65rem; color: rgba(200,184,232,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music-controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.music-btn { background: none; border: none; color: var(--cream); cursor: pointer; padding: 4px 6px; font-size: 0.85rem; border-radius: 8px; transition: all 0.2s; opacity: 0.7; }
+.music-btn:hover { opacity: 1; background: rgba(242,160,184,0.15); }
+.music-play { background: rgba(242,160,184,0.2) !important; opacity: 1 !important; }
+
+/* SECTIONS */
+.section { min-height: 100dvh; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; padding: 80px 24px 60px; }
+.section-petals { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-eyebrow { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; opacity: 0; transform: translateY(20px); transition: all 0.7s var(--ease-smooth); }
+.section-eyebrow.visible { opacity: 1; transform: translateY(0); }
+.section-title { font-family: var(--font-display); font-size: clamp(2rem, 7vw, 3rem); font-weight: 300; line-height: 1.2; color: var(--cream); opacity: 0; transform: translateY(30px); transition: all 0.9s 0.2s var(--ease-smooth); }
+.section-title em { font-style: italic; color: var(--rose); }
+.section-title.visible { opacity: 1; transform: translateY(0); }
+
+/* HERO */
+.hero-section { background: linear-gradient(160deg, #160E2E 0%, #0D0B1E 60%, #130717 100%); min-height: 100dvh; }
+.hero-content { position: relative; z-index: 2; text-align: center; max-width: 500px; margin: 0 auto; }
+.hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.hero-title { font-family: var(--font-display); font-size: clamp(2.8rem, 9vw, 4.5rem); font-weight: 300; line-height: 1.15; color: var(--cream); margin-bottom: 20px; }
+.hero-title em { font-style: italic; color: var(--rose); display: block; }
+.hero-sub { font-size: 1rem; color: rgba(200,184,232,0.7); line-height: 1.7; max-width: 320px; margin: 0 auto; }
+
+/* SCROLL HINT - PANAH */
+.scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0; animation: fadeIn 1s 2s ease forwards; }
+.scroll-arrow { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.scroll-arrow span { display: block; width: 14px; height: 14px; border-right: 2px solid var(--rose); border-bottom: 2px solid var(--rose); transform: rotate(45deg); opacity: 0; animation: arrowFall 1.5s ease-in-out infinite; }
+.scroll-arrow span:nth-child(1) { animation-delay: 0s; }
+.scroll-arrow span:nth-child(2) { animation-delay: 0.2s; }
+.scroll-arrow span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes arrowFall {
+  0% { opacity: 0; transform: rotate(45deg) translate(-4px, -4px); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(45deg) translate(4px, 4px); }
+}
+
+/* TIMELINE */
+.timeline-section { background: linear-gradient(180deg, #0D0B1E 0%, #100820 100%); }
+.timeline { position: relative; max-width: 500px; margin: 0 auto; }
+.timeline::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, transparent, var(--rose), var(--gold), transparent); }
+.timeline-item { position: relative; padding-left: 64px; margin-bottom: 48px; opacity: 0; transform: translateX(-30px); transition: all 0.8s var(--ease-smooth); }
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+.timeline-dot { position: absolute; left: 16px; top: 6px; width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, var(--rose), var(--gold)); box-shadow: 0 0 16px var(--rose); z-index: 2; }
+.timeline-date { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.timeline-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; color: var(--cream); margin-bottom: 8px; }
+.timeline-desc { font-size: 0.9rem; color: rgba(200,184,232,0.7); line-height: 1.7; }
+.timeline-photo { margin-top: 16px; width: 100%; border-radius: 16px; overflow: hidden; }
+.timeline-photo img { width: 100%; height: 200px; object-fit: cover; border-radius: 16px; border: 1px solid rgba(242,160,184,0.15); }
+
+/* GALLERY */
+.gallery-section { background: linear-gradient(180deg, #100820 0%, #0D0B1E 100%); }
+.gallery-masonry { columns: 2; column-gap: 12px; max-width: 600px; margin: 0 auto; }
+.gallery-item { break-inside: avoid; margin-bottom: 12px; border-radius: 12px; overflow: hidden; cursor: pointer; opacity: 0; transform: translateY(20px); transition: all 0.6s var(--ease-smooth); position: relative; }
+.gallery-item.visible { opacity: 1; transform: translateY(0); }
+.gallery-item img { width: 100%; display: block; transition: transform 0.5s var(--ease-smooth); }
+.gallery-item:hover img { transform: scale(1.05); }
+.gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,11,30,0.7) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 12px; }
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-caption { font-family: var(--font-script); font-size: 0.85rem; color: var(--cream); }
+
+/* GALLERY EMPTY STATE */
+.gallery-empty { text-align: center; padding: 60px 24px; max-width: 340px; margin: 0 auto; }
+.gallery-empty-icon { font-size: 3.5rem; margin-bottom: 16px; opacity: 0.5; }
+.gallery-empty-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 300; color: var(--cream); margin-bottom: 8px; opacity: 0.7; }
+.gallery-empty-desc { font-size: 0.85rem; color: rgba(200,184,232,0.4); line-height: 1.7; }
+
+/* LIGHTBOX */
+.lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s ease; backdrop-filter: blur(10px); }
+.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox-img-wrap { max-width: 90vw; max-height: 80dvh; text-align: center; }
+.lightbox-img-wrap img { max-width: 100%; max-height: 75dvh; border-radius: 12px; object-fit: contain; }
+.lightbox-caption { font-family: var(--font-script); font-size: 1rem; color: var(--rose); margin-top: 12px; }
+.lightbox-close, .lightbox-prev, .lightbox-next { position: absolute; background: rgba(255,255,255,0.1); border: none; color: white; cursor: pointer; border-radius: 50%; width: 48px; height: 48px; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.lightbox-close { top: 20px; right: 20px; }
+.lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
+.lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover { background: rgba(242,160,184,0.3); }
+
+/* LETTER */
+.letter-section { background: linear-gradient(180deg, #0D0B1E 0%, #0F0820 100%); }
+.letter-container { max-width: 500px; margin: 0 auto; }
+.letter-paper { background: linear-gradient(160deg, #FDF6F0 0%, #F5EDE8 100%); border-radius: 4px; padding: 40px 32px; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5); opacity: 0; transform: translateY(40px) scale(0.95); transition: all 1s var(--ease-smooth); }
+.letter-paper::before { content: ''; position: absolute; top: 0; left: 40px; right: 40px; height: 2px; background: linear-gradient(90deg, transparent, var(--rose), transparent); }
+.letter-paper.visible { opacity: 1; transform: translateY(0) scale(1); }
+.letter-deco-top, .letter-deco-bottom { display: flex; gap: 12px; justify-content: center; color: rgba(212,96,126,0.4); font-size: 0.9rem; margin-bottom: 24px; }
+.letter-deco-bottom { margin-top: 24px; margin-bottom: 0; }
+.letter-greeting { font-family: var(--font-script); font-size: 1.5rem; color: var(--rose-deep); margin-bottom: 20px; }
+.letter-body { font-family: var(--font-script); font-size: 1.05rem; color: #4A3040; line-height: 1.9; min-height: 40px; white-space: pre-wrap; }
+.letter-body .cursor { display: inline-block; width: 2px; height: 1em; background: var(--rose-deep); margin-left: 2px; animation: blink 1s ease infinite; vertical-align: middle; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.letter-closing { font-family: var(--font-script); font-size: 1rem; color: #4A3040; margin-top: 24px; }
+.letter-signature { font-family: var(--font-script); font-size: 1.6rem; color: var(--rose-deep); margin-top: 8px; }
+
+/* QUOTES */
+.quotes-section { background: linear-gradient(160deg, #160E2E 0%, #0D0B1E 100%); min-height: 100dvh; display: flex; align-items: center; justify-content: center; }
+.quotes-wrapper { max-width: 480px; width: 100%; padding: 0 24px; display: flex; flex-direction: column; gap: 40px; }
+.quote-item { text-align: center; opacity: 0; transform: translateY(30px); transition: all 0.9s var(--ease-smooth); }
+.quote-item.visible { opacity: 1; transform: translateY(0); }
+.quote-mark { font-family: var(--font-display); font-size: 5rem; line-height: 0; color: rgba(242,160,184,0.15); margin-bottom: 16px; display: block; }
+.quote-text { font-family: var(--font-display); font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 300; font-style: italic; color: var(--cream); line-height: 1.5; }
+.quote-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 16px auto; }
+
+/* CLOSING */
+.closing-section { background: linear-gradient(160deg, #0D0B1E 0%, #160E2E 60%, #0D0B1E 100%); display: flex; flex-direction: column; align-items: center; gap: 32px; padding: 100px 24px 80px; }
+.bouquet-3d { display: flex; justify-content: center; align-items: flex-end; height: 260px; position: relative; z-index: 2; }
+.bouquet-wrap { position: relative; width: 200px; height: 240px; opacity: 0; transform: scale(0.7) translateY(30px); transition: all 1.2s var(--ease-bounce); }
+.bouquet-wrap.visible { opacity: 1; transform: scale(1) translateY(0); }
+.bouquet-stem { position: absolute; bottom: 0; left: 50%; width: 8px; height: 100px; background: linear-gradient(180deg, #3A7D3A, #2A5A2A); border-radius: 4px; transform: translateX(-50%); }
+.bouquet-flowers { position: absolute; top: 0; left: 0; right: 0; height: 160px; }
+.bq-flower { position: absolute; width: 60px; height: 60px; animation: flowerSway 3s ease-in-out infinite; }
+.bq-flower.f1 { top: 10px; left: 70px; }
+.bq-flower.f2 { top: 20px; left: 20px; animation-delay: 0.3s; }
+.bq-flower.f3 { top: 30px; right: 10px; animation-delay: 0.6s; }
+.bq-flower.f4 { top: 55px; left: 45px; animation-delay: 0.9s; transform: scale(0.8); }
+.bq-flower.f5 { top: 60px; right: 30px; animation-delay: 1.2s; transform: scale(0.75); }
+@keyframes flowerSway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+.bq-petals { position: relative; width: 60px; height: 60px; }
+.bq-p { position: absolute; width: 24px; height: 30px; background: linear-gradient(180deg, #F2A0B8, #D4607E); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; top: 50%; left: 50%; transform-origin: bottom center; margin-left: -12px; margin-top: -30px; box-shadow: 0 2px 8px rgba(212,96,126,0.3); }
+.bq-flower.f2 .bq-p { background: linear-gradient(180deg, #C8B8E8, #9A7CC0); }
+.bq-flower.f3 .bq-p { background: linear-gradient(180deg, #E8C97D, #C4A035); }
+.bq-flower.f5 .bq-p { background: linear-gradient(180deg, #FBCFE8, #F472B6); }
+.bq-petals .bq-p:nth-child(1) { transform: rotate(0deg) translateY(-8px); }
+.bq-petals .bq-p:nth-child(2) { transform: rotate(72deg) translateY(-8px); }
+.bq-petals .bq-p:nth-child(3) { transform: rotate(144deg) translateY(-8px); }
+.bq-petals .bq-p:nth-child(4) { transform: rotate(216deg) translateY(-8px); }
+.bq-petals .bq-p:nth-child(5) { transform: rotate(288deg) translateY(-8px); }
+.bq-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; background: var(--gold); border-radius: 50%; z-index: 2; box-shadow: 0 0 10px var(--gold); }
+.bouquet-ribbon { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 60px; height: 20px; background: linear-gradient(90deg, var(--rose), var(--rose-deep)); border-radius: 2px; box-shadow: 0 4px 12px rgba(212,96,126,0.4); }
+.bouquet-ribbon::before, .bouquet-ribbon::after { content: ''; position: absolute; top: -8px; width: 0; height: 0; }
+.bouquet-ribbon::before { left: 10px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 16px solid var(--rose); }
+.bouquet-ribbon::after { right: 10px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 16px solid var(--rose-deep); }
+.leaf { position: absolute; width: 30px; height: 50px; background: linear-gradient(180deg, #4CAF50, #2E7D32); border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%; }
+.leaf.l1 { bottom: 90px; left: 30px; transform: rotate(-30deg); }
+.leaf.l2 { bottom: 85px; right: 35px; transform: rotate(25deg); }
+.leaf.l3 { bottom: 95px; left: 80px; transform: rotate(-10deg) scale(0.7); }
+.closing-content { position: relative; z-index: 2; text-align: center; max-width: 400px; width: 100%; }
+.closing-eyebrow { font-size: 1.5rem; color: var(--gold); margin-bottom: 16px; }
+.closing-title { font-family: var(--font-display); font-size: clamp(2.2rem, 7vw, 3.2rem); font-weight: 300; color: var(--cream); margin-bottom: 16px; }
+.closing-text { font-size: 1rem; color: rgba(200,184,232,0.7); line-height: 1.7; margin-bottom: 36px; }
+.closing-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+.action-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 50px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s var(--ease-bounce); border: none; }
+.share-btn { background: rgba(255,255,255,0.08); color: var(--cream); border: 1px solid rgba(255,255,255,0.2); }
+.action-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(212,96,126,0.4); }
+.confetti-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* NAV DOTS */
+.nav-dots { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 99; display: flex; flex-direction: column; gap: 10px; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s var(--ease-smooth); border: 1px solid rgba(255,255,255,0.15); }
+.nav-dot.active { background: var(--rose); box-shadow: 0 0 8px var(--rose); transform: scale(1.4); }
+
+/* ADMIN */
+.admin-trigger { position: fixed; top: 0; right: 0; width: 60px; height: 60px; z-index: 999; cursor: pointer; }
+.admin-overlay { position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s ease; padding: 20px; }
+.admin-overlay.open { opacity: 1; visibility: visible; }
+.admin-panel { background: linear-gradient(160deg, #1A1030 0%, #0D0B1E 100%); border: 1px solid rgba(242,160,184,0.2); border-radius: 20px; width: 100%; max-width: 520px; max-height: 85dvh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.5); }
+.admin-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid rgba(242,160,184,0.1); }
+.admin-header h2 { font-family: var(--font-body); font-size: 1.1rem; font-weight: 600; color: var(--cream); }
+.admin-close { background: rgba(255,255,255,0.08); border: none; color: var(--cream); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 0.8rem; transition: background 0.2s; }
+.admin-close:hover { background: rgba(242,160,184,0.2); }
+.admin-tabs { display: flex; padding: 12px 16px 0; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
+.admin-tab { padding: 10px 14px; background: none; border: none; color: rgba(200,184,232,0.5); font-family: var(--font-body); font-size: 0.8rem; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; border-radius: 8px 8px 0 0; white-space: nowrap; }
+.admin-tab.active { color: var(--rose); border-bottom-color: var(--rose); background: rgba(242,160,184,0.05); }
+.admin-body { flex: 1; overflow-y: auto; padding: 20px; }
+.admin-tab-content { display: none; flex-direction: column; gap: 16px; }
+.admin-tab-content.active { display: flex; }
+.admin-group { display: flex; flex-direction: column; gap: 6px; }
+.admin-group label { font-size: 0.78rem; font-weight: 600; color: rgba(200,184,232,0.7); letter-spacing: 0.05em; text-transform: uppercase; }
+.admin-group input, .admin-group textarea, .admin-group select { background: rgba(255,255,255,0.05); border: 1px solid rgba(242,160,184,0.15); border-radius: 10px; color: var(--cream); font-family: var(--font-body); font-size: 0.9rem; padding: 12px 14px; transition: border-color 0.2s; outline: none; width: 100%; }
+.admin-group input:focus, .admin-group textarea:focus, .admin-group select:focus { border-color: var(--rose); }
+.admin-group input[type="color"] { height: 48px; padding: 4px 8px; cursor: pointer; }
+.admin-group input[type="range"] { padding: 0; height: 6px; accent-color: var(--rose); background: transparent; }
+.admin-group textarea { resize: vertical; min-height: 80px; }
+.admin-footer { display: flex; gap: 12px; padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.06); }
+.admin-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s var(--ease-bounce); }
+.preview-btn { background: rgba(255,255,255,0.08); color: var(--cream); border: 1px solid rgba(255,255,255,0.15); }
+.save-btn { background: linear-gradient(135deg, var(--rose-deep), var(--rose)); color: white; box-shadow: 0 4px 16px rgba(212,96,126,0.3); }
+.admin-btn:hover { transform: translateY(-2px); }
+.admin-note { padding: 0 20px 16px; font-size: 0.72rem; color: rgba(200,184,232,0.4); text-align: center; line-height: 1.5; }
+
+/* UPLOAD ZONE */
+.upload-zone { position: relative; border: 2px dashed rgba(242,160,184,0.3); border-radius: 14px; padding: 20px 16px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(242,160,184,0.04); overflow: hidden; }
+.upload-zone:hover, .upload-zone.drag-over { border-color: var(--rose); background: rgba(242,160,184,0.1); }
+.upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 2; background: transparent; border: none; padding: 0; }
+.upload-zone-icon { font-size: 2rem; margin-bottom: 8px; }
+.upload-zone-text { font-size: 0.85rem; color: rgba(200,184,232,0.8); line-height: 1.5; }
+.upload-zone-hint { font-size: 0.72rem; color: rgba(200,184,232,0.4); margin-top: 4px; }
+.single-photo-preview { display: none; position: relative; margin-top: 10px; border-radius: 12px; overflow: hidden; }
+.single-photo-preview.show { display: block; }
+.single-photo-preview img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(242,160,184,0.2); display: block; }
+.preview-remove { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); border: none; color: white; width: 28px; height: 28px; border-radius: 50%; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+.gallery-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.gallery-preview-item { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(242,160,184,0.1); }
+.gallery-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gallery-preview-item .item-remove { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: white; width: 22px; height: 22px; border-radius: 50%; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+.gallery-add-btn { aspect-ratio: 1; border-radius: 10px; border: 2px dashed rgba(242,160,184,0.25); background: rgba(242,160,184,0.04); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+.gallery-add-btn input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 2; background: transparent; border: none; padding: 0; }
+.gallery-add-btn:hover { border-color: var(--rose); background: rgba(242,160,184,0.1); }
+.gallery-add-btn span:first-child { font-size: 1.5rem; }
+.gallery-add-btn span:last-child { font-size: 0.7rem; color: rgba(200,184,232,0.5); margin-top: 4px; }
+.gallery-count-badge { display: inline-block; margin-top: 8px; font-size: 0.75rem; color: var(--gold); background: rgba(232,201,125,0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(232,201,125,0.2); }
+.music-upload-preview { display: none; align-items: center; gap: 12px; padding: 12px 14px; background: rgba(242,160,184,0.06); border: 1px solid rgba(242,160,184,0.2); border-radius: 12px; margin-top: 8px; }
+.music-upload-preview.show { display: flex; }
+.music-preview-icon { font-size: 1.5rem; flex-shrink: 0; animation: discSpin 4s linear infinite; }
+.music-preview-info { flex: 1; min-width: 0; }
+.music-preview-name { font-size: 0.85rem; font-weight: 600; color: var(--cream); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music-preview-size { font-size: 0.72rem; color: rgba(200,184,232,0.5); }
+.music-preview-btn { background: none; border: 1px solid rgba(242,160,184,0.3); color: var(--rose); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+.music-preview-btn:hover { background: rgba(242,160,184,0.15); }
+.music-preview-remove { background: none; border: none; color: rgba(200,184,232,0.4); cursor: pointer; font-size: 0.8rem; flex-shrink: 0; padding: 4px; border-radius: 50%; transition: color 0.2s; }
+.music-preview-remove:hover { color: var(--rose); }
+.upload-warning { display: none; font-size: 0.75rem; color: #F59E0B; padding: 8px 12px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 8px; margin-top: 6px; }
+.upload-warning.show { display: block; }
+.upload-progress { display: none; height: 3px; background: rgba(255,255,255,0.1); border-radius: 99px; margin-top: 8px; overflow: hidden; }
+.upload-progress.show { display: block; }
+.upload-progress-fill { height: 100%; background: linear-gradient(90deg, var(--rose), var(--gold)); border-radius: 99px; width: 0%; transition: width 0.3s ease; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* TOAST */
+.toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: rgba(13,11,30,0.95); border: 1px solid rgba(242,160,184,0.3); color: var(--cream); padding: 14px 24px; border-radius: 50px; font-size: 0.85rem; z-index: 1000; backdrop-filter: blur(20px); transition: transform 0.4s var(--ease-bounce); white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* SCROLLBAR */
+#main-screen::-webkit-scrollbar { width: 3px; }
+#main-screen::-webkit-scrollbar-track { background: transparent; }
+#main-screen::-webkit-scrollbar-thumb { background: rgba(242,160,184,0.3); border-radius: 2px; }
+
+@media (max-width: 380px) { .open-gift-btn { padding: 16px 32px; font-size: 0.9rem; } .pin-keypad { gap: 8px; } .key-btn { padding: 15px; font-size: 1.1rem; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen" class="screen active">
+  <div class="loading-bg"></div>
+  <canvas id="loading-petals"></canvas>
+  <div class="loading-content">
+    <div class="loading-flower">
+      <div class="flower-center"></div>
+      <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+      <div class="petal p4"></div><div class="petal p5"></div><div class="petal p6"></div>
+      <div class="petal p7"></div><div class="petal p8"></div>
+    </div>
+    <p class="loading-text">Sedang menyiapkan hadiah...</p>
+    <div class="loading-bar"><div class="loading-fill" id="loading-fill"></div></div>
+  </div>
+</div>
+
+<!-- OPENING SCREEN -->
+<div id="opening-screen" class="screen">
+  <canvas id="opening-petals"></canvas>
+  <div class="opening-overlay"></div>
+  <div class="opening-content">
+    <div class="opening-badge">✦ Sebuah Hadiah Istimewa ✦</div>
+    <h1 class="opening-title" id="opening-title">Untuk Kamu yang<br><em>Selalu di Hatiku</em></h1>
+    <p class="opening-recipient">Kepada: <span id="recipient-name">Sayang</span></p>
+    <p class="opening-subtitle" id="opening-subtitle">Ada sesuatu yang indah menantimu di balik pintu ini...</p>
+    <button class="open-gift-btn" id="open-gift-btn">
+      <span class="btn-icon">🌸</span>
+      <span>Buka Hadiah</span>
+      <div class="btn-glow"></div>
+    </button>
+    <p class="opening-hint">Aktifkan suara untuk pengalaman terbaik</p>
+  </div>
+  <div class="opening-decoration">
+    <div class="deco-ring r1"></div><div class="deco-ring r2"></div><div class="deco-ring r3"></div>
+  </div>
+</div>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen" class="screen">
+  <canvas id="pin-petals"></canvas>
+  <div class="pin-content">
+    <div class="pin-icon">🔐</div>
+    <h2 class="pin-title">Masukkan PIN Rahasia</h2>
+    <p class="pin-subtitle">Hanya kamu yang tahu...</p>
+    <div class="pin-display" id="pin-display">
+      <div class="pin-dot"></div><div class="pin-dot"></div>
+      <div class="pin-dot"></div><div class="pin-dot"></div>
+    </div>
+    <p class="pin-error" id="pin-error">PIN salah, coba lagi 💔</p>
+    <div class="pin-keypad" id="pin-keypad">
+      <button class="key-btn" data-num="1">1</button><button class="key-btn" data-num="2">2</button><button class="key-btn" data-num="3">3</button>
+      <button class="key-btn" data-num="4">4</button><button class="key-btn" data-num="5">5</button><button class="key-btn" data-num="6">6</button>
+      <button class="key-btn" data-num="7">7</button><button class="key-btn" data-num="8">8</button><button class="key-btn" data-num="9">9</button>
+      <button class="key-btn key-clear" data-action="clear">⌫</button>
+      <button class="key-btn" data-num="0">0</button>
+      <button class="key-btn key-submit" data-action="submit">✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- CINEMATIC INTRO -->
+<div id="intro-screen" class="screen">
+  <canvas id="intro-petals"></canvas>
+  <div class="curtain-left"></div><div class="curtain-right"></div>
+  <div class="intro-content">
+    <div class="intro-photo-frame" id="intro-photo">
+      <div class="photo-glow"></div>
+      <img src="" alt="Foto Kenangan" id="intro-img" class="intro-img" style="display:none">
+      <div class="photo-border"></div>
+    </div>
+    <div class="intro-text">
+      <p class="intro-label">✦ Hadiah Spesial ✦</p>
+      <h2 class="intro-headline" id="intro-headline">Perjalanan Kita<br><em>Yang Indah</em></h2>
+      <p class="intro-date" id="intro-date">Dimulai dari...</p>
+    </div>
+  </div>
+  <button class="skip-btn" id="skip-intro">Lewati →</button>
+</div>
+
+<!-- MAIN EXPERIENCE -->
+<div id="main-screen" class="screen">
+  <div class="music-player" id="music-player" style="display:none">
+    <div class="music-info">
+      <div class="music-disc" id="music-disc">🎵</div>
+      <div class="music-meta">
+        <span class="music-title" id="music-title-display">Lagu Kita</span>
+        <span class="music-artist" id="music-artist-display">♪</span>
+      </div>
+    </div>
+    <div class="music-controls">
+      <button class="music-btn music-play" id="play-pause-btn">⏸</button>
+    </div>
+    <audio id="bg-music" loop></audio>
+  </div>
+
+  <section class="section hero-section" id="hero-section">
+    <canvas class="section-petals" id="hero-petals"></canvas>
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ Untuk Kamu ✦</p>
+      <h1 class="hero-title" id="hero-title">Kamu adalah<br><em>Segalanya Bagiku</em></h1>
+      <p class="hero-sub" id="hero-sub">Setiap hari bersamamu adalah anugerah terindah</p>
+    </div>
+    <!-- SCROLL HINT: PANAH ANIMASI -->
+    <div class="scroll-hint">
+      <div class="scroll-arrow">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section timeline-section" id="timeline-section">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Perjalanan Kita ✦</p>
+      <h2 class="section-title">Kenangan yang<br><em>Tak Terlupakan</em></h2>
+    </div>
+    <div class="timeline" id="timeline-container"></div>
+  </section>
+
+  <section class="section gallery-section" id="gallery-section">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Galeri Foto ✦</p>
+      <h2 class="section-title">Momen-momen<br><em>Indah Kita</em></h2>
+    </div>
+    <div class="gallery-masonry" id="gallery-container"></div>
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightbox-close">✕</button>
+      <button class="lightbox-prev" id="lightbox-prev">‹</button>
+      <div class="lightbox-img-wrap">
+        <img id="lightbox-img" src="" alt="">
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+      </div>
+      <button class="lightbox-next" id="lightbox-next">›</button>
+    </div>
+  </section>
+
+  <section class="section letter-section" id="letter-section">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Surat Untukmu ✦</p>
+      <h2 class="section-title">Dari Lubuk<br><em>Hatiku</em></h2>
+    </div>
+    <div class="letter-container">
+      <div class="letter-paper" id="letter-paper">
+        <div class="letter-deco-top"><span>❋</span><span>✦</span><span>❋</span></div>
+        <p class="letter-greeting" id="letter-greeting">Hai Sayang,</p>
+        <div class="letter-body" id="letter-body-display"></div>
+        <p class="letter-closing">Dengan sepenuh cinta,</p>
+        <p class="letter-signature" id="letter-signature">Darimu 💝</p>
+        <div class="letter-deco-bottom"><span>❋</span><span>✦</span><span>❋</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section quotes-section" id="quotes-section">
+    <canvas class="section-petals" id="quotes-petals"></canvas>
+    <div class="quotes-wrapper" id="quotes-wrapper"></div>
+  </section>
+
+  <section class="section closing-section" id="closing-section">
+    <canvas class="section-petals" id="closing-petals"></canvas>
+    <div class="bouquet-3d">
+      <div class="bouquet-wrap">
+        <div class="bouquet-stem"></div>
+        <div class="bouquet-flowers">
+          <div class="bq-flower f1"><div class="bq-petals"><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div></div><div class="bq-center"></div></div>
+          <div class="bq-flower f2"><div class="bq-petals"><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div></div><div class="bq-center"></div></div>
+          <div class="bq-flower f3"><div class="bq-petals"><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div></div><div class="bq-center"></div></div>
+          <div class="bq-flower f4"><div class="bq-petals"><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div></div><div class="bq-center"></div></div>
+          <div class="bq-flower f5"><div class="bq-petals"><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div><div class="bq-p"></div></div><div class="bq-center"></div></div>
+        </div>
+        <div class="bouquet-ribbon"></div>
+        <div class="bouquet-leaves"><div class="leaf l1"></div><div class="leaf l2"></div><div class="leaf l3"></div></div>
+      </div>
+    </div>
+    <div class="closing-content">
+      <p class="closing-eyebrow">✦</p>
+      <h2 class="closing-title" id="closing-title">Selalu dan Selamanya</h2>
+      <p class="closing-text" id="closing-text">Terima kasih sudah menjadi bagian terindah dari hidupku.</p>
+      <div class="closing-actions">
+        <button class="action-btn share-btn" id="share-btn"><span>↗</span> Bagikan</button>
+      </div>
+    </div>
+    <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+  </section>
+
+  <div class="nav-dots" id="nav-dots">
+    <div class="nav-dot active" data-section="0"></div>
+    <div class="nav-dot" data-section="1"></div>
+    <div class="nav-dot" data-section="2"></div>
+    <div class="nav-dot" data-section="3"></div>
+    <div class="nav-dot" data-section="4"></div>
+    <div class="nav-dot" data-section="5"></div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-overlay" class="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h2>⚙️ Dashboard Admin</h2>
+      <button class="admin-close" id="admin-close">✕</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="identitas">Identitas</button>
+      <button class="admin-tab" data-tab="konten">Konten</button>
+      <button class="admin-tab" data-tab="foto">📸 Foto</button>
+      <button class="admin-tab" data-tab="musik">🎵 Musik</button>
+      <button class="admin-tab" data-tab="tampilan">Tampilan</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- Tab: Identitas -->
+      <div class="admin-tab-content active" id="tab-identitas">
+        <div class="admin-group"><label>Nama Penerima</label><input type="text" id="a-recipient" placeholder="Nama sayang..."></div>
+        <div class="admin-group"><label>PIN Rahasia (4 digit)</label><input type="text" id="a-pin" maxlength="4" placeholder="1234"></div>
+        <div class="admin-group"><label>Judul Pembuka</label><input type="text" id="a-opening-title" placeholder="Untuk Kamu yang Selalu di Hatiku"></div>
+        <div class="admin-group"><label>Subjudul Pembuka</label><input type="text" id="a-opening-sub" placeholder="Ada sesuatu yang indah..."></div>
+        <div class="admin-group"><label>Hero Title</label><input type="text" id="a-hero-title" placeholder="Kamu adalah Segalanya Bagiku"></div>
+        <div class="admin-group"><label>Tanggal Mulai (Intro)</label><input type="text" id="a-intro-date" placeholder="14 Februari 2024"></div>
+        <div class="admin-group"><label>Judul Penutup</label><input type="text" id="a-closing-title" placeholder="Selalu dan Selamanya"></div>
+        <div class="admin-group"><label>Teks Penutup</label><textarea id="a-closing-text" rows="2" placeholder="Terima kasih sudah..."></textarea></div>
+      </div>
+
+      <!-- Tab: Konten -->
+      <div class="admin-tab-content" id="tab-konten">
+        <div class="admin-group"><label>Surat Digital</label><textarea id="a-letter" rows="8" placeholder="Tuliskan surat cintamu di sini..."></textarea></div>
+        <div class="admin-group"><label>Tanda Tangan Surat</label><input type="text" id="a-signature" placeholder="Darimu 💝"></div>
+        <div class="admin-group"><label>Quotes Romantis (satu per baris)</label><textarea id="a-quotes" rows="5" placeholder="Kamu adalah alasanku tersenyum&#10;Bersamamu segalanya terasa lengkap"></textarea></div>
+      </div>
+
+      <!-- Tab: FOTO -->
+      <div class="admin-tab-content" id="tab-foto">
+        <div class="admin-group">
+          <label>📷 Foto Profil / Intro</label>
+          <div class="upload-zone" id="intro-upload-zone">
+            <input type="file" id="intro-photo-input" accept="image/*">
+            <div class="upload-zone-icon">🌸</div>
+            <div class="upload-zone-text">Klik atau seret foto ke sini</div>
+            <div class="upload-zone-hint">JPG, PNG, WEBP • Maks 5MB</div>
+          </div>
+          <div class="single-photo-preview" id="intro-photo-preview">
+            <img id="intro-preview-img" src="" alt="Preview">
+            <button class="preview-remove" id="intro-photo-remove">✕</button>
+          </div>
+          <div class="upload-warning" id="intro-photo-warning">⚠️ Ukuran foto terlalu besar. Foto akan dikompres otomatis.</div>
+        </div>
+        <div class="admin-group">
+          <label>🖼 Galeri Foto (maks 12 foto)</label>
+          <div class="gallery-preview-grid" id="gallery-preview-grid">
+            <div class="gallery-add-btn" id="gallery-add-btn">
+              <input type="file" id="gallery-photo-input" accept="image/*" multiple>
+              <span>➕</span>
+              <span>Tambah Foto</span>
+            </div>
+          </div>
+          <div id="gallery-count-display"></div>
+          <div class="upload-warning" id="gallery-warning"></div>
+        </div>
+      </div>
+
+      <!-- Tab: MUSIK -->
+      <div class="admin-tab-content" id="tab-musik">
+        <div class="admin-group">
+          <label>🎵 Upload Lagu Latar</label>
+          <div class="upload-zone" id="music-upload-zone">
+            <input type="file" id="music-file-input" accept="audio/*">
+            <div class="upload-zone-icon">🎶</div>
+            <div class="upload-zone-text">Klik atau seret file musik ke sini</div>
+            <div class="upload-zone-hint">MP3, M4A, OGG, WAV • Maks 20MB</div>
+          </div>
+          <div class="upload-progress" id="music-upload-progress">
+            <div class="upload-progress-fill" id="music-progress-fill"></div>
+          </div>
+          <div class="music-upload-preview" id="music-upload-preview">
+            <div class="music-preview-icon">💿</div>
+            <div class="music-preview-info">
+              <div class="music-preview-name" id="music-preview-name">Nama lagu</div>
+              <div class="music-preview-size" id="music-preview-size"></div>
+            </div>
+            <button class="music-preview-btn" id="music-preview-play">▶</button>
+            <button class="music-preview-remove" id="music-preview-remove">✕</button>
+          </div>
+          <audio id="music-preview-audio" style="display:none"></audio>
+          <div class="upload-warning" id="music-upload-warning"></div>
+        </div>
+        <div class="admin-group"><label>Judul Lagu (tampil di player)</label><input type="text" id="a-music-title" placeholder="Lagu Kita"></div>
+        <div class="admin-group"><label>Nama Artis</label><input type="text" id="a-music-artist" placeholder="Nama Artis"></div>
+        <p style="font-size:0.75rem; color:rgba(200,184,232,0.4); line-height:1.6; padding: 4px 0;">
+          💡 File musik disimpan sebagai data URL di browser. Untuk file besar, gunakan link dari SoundCloud atau Google Drive.
+        </p>
+      </div>
+
+      <!-- Tab: Tampilan -->
+      <div class="admin-tab-content" id="tab-tampilan">
+        <div class="admin-group"><label>Warna Aksen Utama</label><input type="color" id="a-color-primary" value="#F2A0B8"></div>
+        <div class="admin-group"><label>Warna Gold</label><input type="color" id="a-color-gold" value="#E8C97D"></div>
+        <div class="admin-group"><label>Jenis Bunga Partikel</label>
+          <select id="a-flower-type">
+            <option value="sakura">Sakura 🌸</option>
+            <option value="rose">Mawar 🌹</option>
+            <option value="heart">Hati 💕</option>
+            <option value="star">Bintang ⭐</option>
+          </select>
+        </div>
+        <div class="admin-group"><label>Intensitas Partikel Bunga</label><input type="range" id="a-petal-intensity" min="10" max="80" value="35"></div>
+      </div>
+
+    </div>
+    <div class="admin-footer">
+      <button class="admin-btn preview-btn" id="admin-preview">👁 Preview</button>
+      <button class="admin-btn save-btn" id="admin-save">💾 Simpan</button>
+    </div>
+    <p class="admin-note">💡 Foto & musik disimpan di localStorage browser ini. Buka di browser yang sama untuk melihat hasilnya.</p>
+  </div>
+</div>
+
+<div id="admin-trigger" class="admin-trigger"></div>
+
+<script>
+// ============================================
+// CONFIG DEFAULT
+// ============================================
+window.KadoConfig = {
+  recipient: "Sayang", pin: "1234",
+  openingTitle: "Untuk Kamu yang\nSelalu di Hatiku",
+  openingSubtitle: "Ada sesuatu yang indah menantimu di balik pintu ini...",
+  heroTitle: "Kamu adalah\nSegalanya Bagiku",
+  heroSub: "Setiap hari bersamamu adalah anugerah terindah",
+  introDate: "14 Februari 2024",
+  introHeadline: "Perjalanan Kita\nYang Indah",
+  closingTitle: "Selalu dan Selamanya",
+  closingText: "Terima kasih sudah menjadi bagian terindah dari hidupku.",
+  introPhoto: "", musicUrl: "", musicTitle: "Lagu Kita", musicArtist: "♪ Untukmu",
+  letter: "Hai Sayang,\n\nAda begitu banyak hal yang ingin aku ungkapkan, namun kata-kata selalu terasa kurang untuk menggambarkan betapa berharganya kamu bagiku.\n\nSetiap momen bersamamu adalah hadiah yang tak ternilai. Tawamu, senyummu, cara kamu melihat dunia — semuanya membuat hidupku menjadi lebih berwarna.\n\nTerima kasih sudah hadir dan mengisi hari-hariku dengan kebahagiaan. Aku mencintaimu ❤️",
+  letterSignature: "Dengan sepenuh cinta 💝",
+  timeline: [
+    { date: "Hari Pertama", title: "Pertama Kali Bertemu", desc: "Saat itu aku tidak tahu bahwa pertemuan kecil itu akan mengubah segalanya untukku...", photo: "" },
+    { date: "Momen Spesial", title: "Kenangan Tak Terlupakan", desc: "Setiap detik bersamamu terasa seperti keajaiban.", photo: "" },
+    { date: "Hari Ini", title: "Perjalanan yang Masih Berlanjut", desc: "Dan masih banyak cerita indah yang menanti kita.", photo: "" }
+  ],
+  gallery: [],
+  quotes: ["Bersamamu, setiap hari terasa seperti hadiah","Kamu adalah rumah yang selalu aku rindukan","Dalam setiap senyummu, aku menemukan alasan untuk bahagia","Cintamu adalah cahaya yang menerangi hari-hariku"],
+  colorPrimary: "#F2A0B8", colorGold: "#E8C97D", flowerType: "sakura", petalIntensity: 35
+};
+
+try {
+  const saved = localStorage.getItem('kado_config');
+  if (saved) Object.assign(window.KadoConfig, JSON.parse(saved));
+} catch(e) {}
+
+// ============================================
+// PETAL SYSTEM
+// ============================================
+class PetalSystem {
+  constructor(canvas, options = {}) {
+    this.canvas = canvas; this.ctx = canvas.getContext('2d');
+    this.petals = []; this.running = false; this.raf = null;
+    this.options = { count:30, color:'#F2A0B8', color2:'#E8C97D', type:'sakura', minSize:6, maxSize:18, minSpeed:0.5, maxSpeed:2, wind:0.3, opacity:0.7, ...options };
+    // Delay resize agar canvas sudah ada di DOM dan punya ukuran
+    requestAnimationFrame(() => { this.resize(); this.resize(); }); // 2x untuk pastikan
+    window.addEventListener('resize', () => this.resize());
+  }
+  resize() {
+    // Selalu pakai window size sebagai ukuran canvas agar bunga menutupi seluruh layar
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+  createPetal() {
+    const size = this.options.minSize + Math.random()*(this.options.maxSize-this.options.minSize);
+    return { x:Math.random()*this.canvas.width, y:-size-Math.random()*200, size, color:Math.random()>0.5?this.options.color:this.options.color2, opacity:0.2+Math.random()*this.options.opacity, speedY:this.options.minSpeed+Math.random()*(this.options.maxSpeed-this.options.minSpeed), speedX:(Math.random()-0.5)*this.options.wind*2, rotation:Math.random()*360, rotSpeed:(Math.random()-0.5)*3, sway:Math.random()*Math.PI*2, swaySpeed:0.02+Math.random()*0.03, swayAmp:20+Math.random()*30, initialX:0 };
+  }
+  drawSakura(ctx,p) {
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rotation*Math.PI/180); ctx.globalAlpha=p.opacity;
+    const s=p.size*0.5;
+    for(let i=0;i<5;i++){ctx.save();ctx.rotate((i*72*Math.PI)/180);ctx.beginPath();ctx.ellipse(0,-s,s*0.5,s,0,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();ctx.restore();}
+    ctx.beginPath();ctx.arc(0,0,s*0.3,0,Math.PI*2);ctx.fillStyle=this.options.color2;ctx.fill();ctx.restore();
+  }
+  drawHeart(ctx,p) {
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation*Math.PI/180);ctx.globalAlpha=p.opacity;
+    const s=p.size*0.4;ctx.beginPath();ctx.moveTo(0,s*0.5);ctx.bezierCurveTo(-s,-s*0.5,-s*2,s,0,s*2);ctx.bezierCurveTo(s*2,s,s,-s*0.5,0,s*0.5);ctx.fillStyle=p.color;ctx.fill();ctx.restore();
+  }
+  drawStar(ctx,p) {
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation*Math.PI/180);ctx.globalAlpha=p.opacity;
+    const s=p.size*0.5;ctx.beginPath();
+    for(let i=0;i<5;i++){const a=(i*4*Math.PI)/5-Math.PI/2;ctx.lineTo(Math.cos(a)*s,Math.sin(a)*s);const ia=a+(2*Math.PI)/10;ctx.lineTo(Math.cos(ia)*s*0.4,Math.sin(ia)*s*0.4);}
+    ctx.closePath();ctx.fillStyle=p.color;ctx.fill();ctx.restore();
+  }
+  drawPetal(ctx,p){if(this.options.type==='heart')this.drawHeart(ctx,p);else if(this.options.type==='star')this.drawStar(ctx,p);else this.drawSakura(ctx,p);}
+  update(){
+    const {ctx,canvas}=this; ctx.clearRect(0,0,canvas.width,canvas.height);
+    while(this.petals.length<this.options.count){const p=this.createPetal();p.initialX=p.x;this.petals.push(p);}
+    this.petals.forEach((p,i)=>{p.sway+=p.swaySpeed;p.x=p.initialX+Math.sin(p.sway)*p.swayAmp;p.y+=p.speedY;p.rotation+=p.rotSpeed;p.initialX+=p.speedX;this.drawPetal(ctx,p);if(p.y>canvas.height+50)this.petals.splice(i,1);});
+  }
+  start(){if(this.running)return;this.resize();this.running=true;const loop=()=>{if(!this.running)return;this.update();this.raf=requestAnimationFrame(loop);};loop();}
+  stop(){this.running=false;if(this.raf)cancelAnimationFrame(this.raf);this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);}
+  burst(count=30){for(let i=0;i<count;i++){setTimeout(()=>{const p=this.createPetal();p.x=this.canvas.width/2+(Math.random()-0.5)*100;p.y=this.canvas.height*0.4+(Math.random()-0.5)*100;p.speedY=Math.random()*3+1;p.opacity=0.8;p.size*=1.3;p.initialX=p.x;this.petals.push(p);},i*30);}}
+}
+
+class ConfettiSystem {
+  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.particles=[];this.running=false;this.raf=null;this.resize();window.addEventListener('resize',()=>this.resize());}
+  resize(){this.canvas.width=this.canvas.offsetWidth;this.canvas.height=this.canvas.offsetHeight;}
+  create(){const colors=['#F2A0B8','#E8C97D','#C8B8E8','#FFFFFF','#D4607E'];const shapes=['rect','circle','ribbon'];for(let i=0;i<120;i++){setTimeout(()=>{this.particles.push({x:Math.random()*this.canvas.width,y:-20,color:colors[Math.floor(Math.random()*colors.length)],shape:shapes[Math.floor(Math.random()*shapes.length)],size:6+Math.random()*10,speedY:2+Math.random()*4,speedX:(Math.random()-0.5)*3,rotation:Math.random()*360,rotSpeed:(Math.random()-0.5)*8,opacity:1,wobble:Math.random()*Math.PI*2,wobbleSpeed:0.05+Math.random()*0.1});},i*20);}}
+  update(){const {ctx,canvas}=this;ctx.clearRect(0,0,canvas.width,canvas.height);this.particles.forEach((p,i)=>{p.wobble+=p.wobbleSpeed;p.x+=p.speedX+Math.sin(p.wobble);p.y+=p.speedY;p.rotation+=p.rotSpeed;p.speedY+=0.05;if(p.y>canvas.height*0.8)p.opacity-=0.02;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation*Math.PI/180);ctx.globalAlpha=Math.max(0,p.opacity);ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);}else if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill();}else{ctx.beginPath();ctx.moveTo(-p.size/2,0);ctx.lineTo(0,-p.size/3);ctx.lineTo(p.size/2,0);ctx.lineTo(0,p.size/3);ctx.closePath();ctx.fill();}ctx.restore();if(p.opacity<=0||p.y>canvas.height+50)this.particles.splice(i,1);});}
+  start(){if(this.running)return;this.running=true;this.create();const loop=()=>{if(!this.running)return;this.update();if(this.particles.length>0){this.raf=requestAnimationFrame(loop);}else{this.running=false;}};loop();}
+}
+
+// ============================================
+// UPLOAD HELPERS
+// ============================================
+const Upload = {
+  compressImage(file, maxW, maxH, quality) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const dataUrl = e.target.result;
+        // Coba kompresi via canvas, fallback ke raw base64 jika gagal
+        try {
+          const img = new Image();
+          img.onload = () => {
+            try {
+              let w = img.width, h = img.height;
+              const ratio = Math.min(maxW/w, maxH/h, 1);
+              w = Math.round(w*ratio); h = Math.round(h*ratio);
+              const cvs = document.createElement('canvas');
+              cvs.width = w; cvs.height = h;
+              const ctx = cvs.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              const compressed = cvs.toDataURL('image/jpeg', quality);
+              resolve(compressed);
+            } catch(canvasErr) {
+              // Canvas tainted/blocked - pakai original
+              resolve(dataUrl);
+            }
+          };
+          img.onerror = () => resolve(dataUrl);
+          img.src = dataUrl;
+        } catch(e2) {
+          resolve(dataUrl);
+        }
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  },
+  readAudio(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  },
+  formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/1024/1024).toFixed(1) + ' MB';
+  }
+};
+
+// ============================================
+// ADMIN UPLOAD
+// ============================================
+const AdminUpload = {
+  galleryItems: [],
+  introPhotoData: null,
+  musicData: null,
+
+  init() {
+    this.loadSaved();
+    this.setupIntroUpload();
+    this.setupGalleryUpload();
+    this.setupMusicUpload();
+    this.setupDragAndDrop();
+  },
+
+  loadSaved() {
+    const c = window.KadoConfig;
+    if (c.introPhoto && c.introPhoto.startsWith('data:')) {
+      this.introPhotoData = c.introPhoto;
+      this.showIntroPreview(c.introPhoto);
+    }
+    if (c.gallery && c.gallery.length > 0) {
+      c.gallery.forEach(g => {
+        if (g.url) this.galleryItems.push({ dataUrl: g.url, caption: g.caption || 'Kenangan' });
+      });
+      this.renderGalleryGrid();
+    }
+    if (c.musicUrl && c.musicUrl.startsWith('data:')) {
+      this.musicData = c.musicUrl;
+      this.showMusicPreview(c.musicTitle || 'Lagu Kita', '');
+    }
+  },
+
+  setupIntroUpload() {
+    const input = document.getElementById('intro-photo-input');
+    input.addEventListener('change', async e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      await this.processIntroPhoto(file);
+      input.value = '';
+    });
+    document.getElementById('intro-photo-remove').addEventListener('click', () => {
+      this.introPhotoData = null;
+      document.getElementById('intro-photo-preview').classList.remove('show');
+      document.getElementById('intro-photo-warning').classList.remove('show');
+    });
+  },
+
+  async processIntroPhoto(file) {
+    const warn = document.getElementById('intro-photo-warning');
+    if (file.size > 5 * 1024 * 1024) warn.classList.add('show');
+    else warn.classList.remove('show');
+    try {
+      const dataUrl = await Upload.compressImage(file, 800, 800, 0.85);
+      this.introPhotoData = dataUrl;
+      this.showIntroPreview(dataUrl);
+      App.showToast('✅ Foto profil berhasil dimuat!');
+    } catch(e) {
+      App.showToast('❌ Gagal memuat foto');
+    }
+  },
+
+  showIntroPreview(dataUrl) {
+    document.getElementById('intro-preview-img').src = dataUrl;
+    document.getElementById('intro-photo-preview').classList.add('show');
+  },
+
+  setupGalleryUpload() {
+    const input = document.getElementById('gallery-photo-input');
+    input.addEventListener('change', async e => {
+      let files = Array.from(e.target.files);
+      await this.processGalleryFiles(files);
+      e.target.value = '';
+    });
+  },
+
+  async processGalleryFiles(files) {
+    const warn = document.getElementById('gallery-warning');
+    const remaining = 12 - this.galleryItems.length;
+    if (files.length > remaining) {
+      warn.textContent = `⚠️ Hanya ${remaining} slot tersisa. ${files.length - remaining} foto tidak dimasukkan.`;
+      warn.classList.add('show');
+      files = files.slice(0, remaining);
+    } else {
+      warn.classList.remove('show');
+    }
+    for (const file of files) {
+      try {
+        const dataUrl = await Upload.compressImage(file, 1200, 1200, 0.82);
+        const caption = file.name.replace(/\.[^/.]+$/, '') || 'Kenangan';
+        this.galleryItems.push({ dataUrl, caption });
+      } catch(e) {}
+    }
+    this.renderGalleryGrid();
+    App.showToast(`✅ ${files.length} foto berhasil ditambahkan!`);
+  },
+
+  renderGalleryGrid() {
+    const grid = document.getElementById('gallery-preview-grid');
+    grid.innerHTML = '';
+    this.galleryItems.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'gallery-preview-item';
+      div.innerHTML = `<img src="${item.dataUrl}" alt="${item.caption}"><button class="item-remove" data-idx="${i}">✕</button>`;
+      div.querySelector('.item-remove').addEventListener('click', () => {
+        this.galleryItems.splice(i, 1);
+        this.renderGalleryGrid();
+      });
+      grid.appendChild(div);
+    });
+    if (this.galleryItems.length < 12) {
+      const addBtn = document.createElement('div');
+      addBtn.className = 'gallery-add-btn';
+      addBtn.innerHTML = `<input type="file" id="gallery-photo-input" accept="image/*" multiple><span>➕</span><span>Tambah</span>`;
+      addBtn.querySelector('input').addEventListener('change', async e => {
+        const files = Array.from(e.target.files);
+        await this.processGalleryFiles(files);
+        e.target.value = '';
+      });
+      grid.appendChild(addBtn);
+    }
+    const count = document.getElementById('gallery-count-display');
+    count.innerHTML = this.galleryItems.length > 0
+      ? `<span class="gallery-count-badge">${this.galleryItems.length} foto terpilih</span>`
+      : '';
+  },
+
+  setupMusicUpload() {
+    const input = document.getElementById('music-file-input');
+    input.addEventListener('change', async e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      await this.processMusicFile(file);
+      input.value = '';
+    });
+    document.getElementById('music-preview-play').addEventListener('click', () => {
+      const audio = document.getElementById('music-preview-audio');
+      if (audio.paused) { audio.play(); document.getElementById('music-preview-play').textContent = '⏸'; }
+      else { audio.pause(); document.getElementById('music-preview-play').textContent = '▶'; }
+    });
+    document.getElementById('music-preview-remove').addEventListener('click', () => {
+      this.musicData = null;
+      const audio = document.getElementById('music-preview-audio');
+      audio.pause(); audio.src = '';
+      document.getElementById('music-upload-preview').classList.remove('show');
+      document.getElementById('music-upload-warning').classList.remove('show');
+      document.getElementById('music-upload-progress').classList.remove('show');
+      document.getElementById('music-preview-play').textContent = '▶';
+    });
+  },
+
+  async processMusicFile(file) {
+    const warn = document.getElementById('music-upload-warning');
+    const progress = document.getElementById('music-upload-progress');
+    const fill = document.getElementById('music-progress-fill');
+    const MAX_MB = 20;
+    if (file.size > MAX_MB * 1024 * 1024) {
+      warn.textContent = `⚠️ File terlalu besar (${Upload.formatSize(file.size)}). Maks ${MAX_MB}MB.`;
+      warn.classList.add('show');
+      return;
+    }
+    warn.classList.remove('show');
+    progress.classList.add('show');
+    fill.style.width = '0%';
+    let prog = 0;
+    const progInterval = setInterval(() => {
+      prog = Math.min(90, prog + Math.random() * 15);
+      fill.style.width = prog + '%';
+    }, 100);
+    try {
+      const dataUrl = await Upload.readAudio(file);
+      clearInterval(progInterval);
+      fill.style.width = '100%';
+      this.musicData = dataUrl;
+      const audio = document.getElementById('music-preview-audio');
+      audio.src = dataUrl;
+      const nameWithoutExt = file.name.replace(/\.[^/.]+$/, '');
+      const titleInput = document.getElementById('a-music-title');
+      if (!titleInput.value || titleInput.value === 'Lagu Kita') titleInput.value = nameWithoutExt;
+      this.showMusicPreview(nameWithoutExt, Upload.formatSize(file.size));
+      App.showToast('✅ Musik berhasil dimuat!');
+      setTimeout(() => { progress.classList.remove('show'); fill.style.width='0%'; }, 800);
+    } catch(e) {
+      clearInterval(progInterval);
+      progress.classList.remove('show');
+      warn.textContent = '❌ Gagal memuat musik. Coba file lain.';
+      warn.classList.add('show');
+    }
+  },
+
+  showMusicPreview(name, size) {
+    document.getElementById('music-preview-name').textContent = name;
+    document.getElementById('music-preview-size').textContent = size || '';
+    document.getElementById('music-upload-preview').classList.add('show');
+  },
+
+  setupDragAndDrop() {
+    ['intro-upload-zone', 'music-upload-zone'].forEach(zoneId => {
+      const zone = document.getElementById(zoneId);
+      if (!zone) return;
+      zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+      zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+      zone.addEventListener('drop', e => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (!files.length) return;
+        if (zoneId === 'intro-upload-zone' && files[0].type.startsWith('image/')) this.processIntroPhoto(files[0]);
+        else if (zoneId === 'music-upload-zone' && files[0].type.startsWith('audio/')) this.processMusicFile(files[0]);
+      });
+    });
+  },
+
+  collectUploadData() {
+    return {
+      introPhoto: this.introPhotoData || '',
+      musicUrl: this.musicData || '',
+      gallery: this.galleryItems.map(g => ({ url: g.dataUrl, caption: g.caption }))
+    };
+  }
+};
+
+// ============================================
+// MAIN APP
+// ============================================
+const App = {
+  cfg: window.KadoConfig,
+  petalSystems: {}, confetti: null,
+  currentPin: '', galleryData: [], lightboxIndex: 0, letterInterval: null, isTyping: false,
+
+  init() { this.applyConfig(); this.initLoading(); },
+  applyConfig() {
+    document.documentElement.style.setProperty('--rose', this.cfg.colorPrimary);
+    document.documentElement.style.setProperty('--gold', this.cfg.colorGold);
+  },
+  initLoading() {
+    const canvas = document.getElementById('loading-petals');
+    this.petalSystems.loading = new PetalSystem(canvas, { count:20, type:this.cfg.flowerType, color:this.cfg.colorPrimary, color2:this.cfg.colorGold });
+    this.petalSystems.loading.start();
+    const fill = document.getElementById('loading-fill');
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 15;
+      if (progress >= 100) { progress = 100; clearInterval(interval); setTimeout(() => this.showOpening(), 400); }
+      fill.style.width = progress + '%';
+    }, 120);
+  },
+  showOpening() {
+    document.getElementById('loading-screen').classList.add('fade-out');
+    setTimeout(() => { document.getElementById('loading-screen').classList.remove('active','fade-out'); this.petalSystems.loading.stop(); }, 800);
+    const opening = document.getElementById('opening-screen');
+    opening.classList.add('active');
+    document.getElementById('recipient-name').textContent = this.cfg.recipient;
+    document.getElementById('opening-title').innerHTML = this.cfg.openingTitle.replace('\n','<br>');
+    document.getElementById('opening-subtitle').textContent = this.cfg.openingSubtitle;
+    const canvas = document.getElementById('opening-petals');
+    this.petalSystems.opening = new PetalSystem(canvas, { count:this.cfg.petalIntensity, type:this.cfg.flowerType, color:this.cfg.colorPrimary, color2:this.cfg.colorGold, minSize:8, maxSize:20 });
+    this.petalSystems.opening.start();
+    document.getElementById('open-gift-btn').addEventListener('click', () => this.onOpenGift());
+  },
+  onOpenGift() {
+    this.petalSystems.opening.burst(50);
+    setTimeout(() => {
+      document.getElementById('opening-screen').classList.add('fade-out');
+      setTimeout(() => { document.getElementById('opening-screen').classList.remove('active','fade-out'); this.petalSystems.opening.stop(); this.showPin(); }, 800);
+    }, 400);
+  },
+  showPin() {
+    const pinScreen = document.getElementById('pin-screen');
+    pinScreen.classList.add('active');
+    this.petalSystems.pin = new PetalSystem(document.getElementById('pin-petals'), { count:15, type:this.cfg.flowerType, color:this.cfg.colorPrimary, color2:this.cfg.colorGold });
+    this.petalSystems.pin.start();
+    this.currentPin = '';
+    document.getElementById('pin-keypad').querySelectorAll('.key-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const num = btn.dataset.num, action = btn.dataset.action;
+        if (num !== undefined && this.currentPin.length < 4) { this.currentPin += num; this.updatePinDisplay(); if (this.currentPin.length === 4) setTimeout(() => this.checkPin(), 300); }
+        else if (action === 'clear') { this.currentPin = this.currentPin.slice(0,-1); this.updatePinDisplay(); }
+        else if (action === 'submit') this.checkPin();
+      });
+    });
+  },
+  updatePinDisplay() { document.querySelectorAll('.pin-dot').forEach((d,i) => d.classList.toggle('filled', i < this.currentPin.length)); },
+  checkPin() {
+    if (this.currentPin === this.cfg.pin) {
+      document.getElementById('pin-screen').classList.add('fade-out');
+      this.startMusic();
+      setTimeout(() => { document.getElementById('pin-screen').classList.remove('active','fade-out'); this.petalSystems.pin.stop(); this.showIntro(); }, 800);
+    } else {
+      const keypad = document.getElementById('pin-keypad'), error = document.getElementById('pin-error');
+      keypad.classList.add('shake'); error.classList.add('show');
+      document.querySelectorAll('.pin-dot').forEach(d => d.classList.add('filled'));
+      setTimeout(() => { keypad.classList.remove('shake'); error.classList.remove('show'); this.currentPin = ''; this.updatePinDisplay(); }, 1500);
+    }
+  },
+  startMusic() {
+    if (!this.cfg.musicUrl) return;
+    const audio = document.getElementById('bg-music');
+    audio.src = this.cfg.musicUrl; audio.volume = 0;
+    audio.play().catch(() => {});
+    let vol = 0; const fi = setInterval(() => { vol = Math.min(0.5, vol+0.02); audio.volume = vol; if(vol>=0.5) clearInterval(fi); }, 100);
+    const player = document.getElementById('music-player');
+    player.style.display = 'flex';
+    document.getElementById('music-title-display').textContent = this.cfg.musicTitle;
+    document.getElementById('music-artist-display').textContent = this.cfg.musicArtist;
+    const playBtn = document.getElementById('play-pause-btn'), disc = document.getElementById('music-disc');
+    audio.addEventListener('play', () => { playBtn.textContent='⏸'; disc.classList.add('playing'); });
+    audio.addEventListener('pause', () => { playBtn.textContent='▶'; disc.classList.remove('playing'); });
+    playBtn.addEventListener('click', () => { if(audio.paused) audio.play(); else audio.pause(); });
+  },
+  showIntro() {
+    const introScreen = document.getElementById('intro-screen');
+    introScreen.classList.add('active');
+    const hl = document.getElementById('intro-headline');
+    hl.innerHTML = this.cfg.introHeadline.split('\n').map((l,i) => i===1?`<em>${l}</em>`:l).join('<br>');
+    document.getElementById('intro-date').textContent = this.cfg.introDate;
+    if (this.cfg.introPhoto) { const img = document.getElementById('intro-img'); img.src = this.cfg.introPhoto; img.style.display='block'; }
+    this.petalSystems.intro = new PetalSystem(document.getElementById('intro-petals'), { count:25, type:this.cfg.flowerType, color:this.cfg.colorPrimary, color2:this.cfg.colorGold });
+    this.petalSystems.intro.start();
+    setTimeout(() => {
+      document.querySelector('.curtain-left').classList.add('open');
+      document.querySelector('.curtain-right').classList.add('open');
+      setTimeout(() => document.querySelector('.intro-content').classList.add('visible'), 800);
+    }, 600);
+    const autoAdv = setTimeout(() => this.goToMain(), 5500);
+    document.getElementById('skip-intro').addEventListener('click', () => { clearTimeout(autoAdv); this.goToMain(); });
+  },
+  goToMain() {
+    document.getElementById('intro-screen').classList.add('fade-out');
+    setTimeout(() => { document.getElementById('intro-screen').classList.remove('active','fade-out'); if(this.petalSystems.intro) this.petalSystems.intro.stop(); this.showMain(); }, 800);
+  },
+  showMain() {
+    const mainScreen = document.getElementById('main-screen');
+    mainScreen.classList.add('active');
+    this.buildContent();
+    this.initHeroPetals();
+    this.initScrollObserver();
+    this.initNavDots();
+    this.initLightbox();
+    this.initConfetti();
+    document.getElementById('hero-title').innerHTML = this.cfg.heroTitle.split('\n').map((l,i)=>i===1?`<em>${l}</em>`:l).join('<br>');
+    document.getElementById('hero-sub').textContent = this.cfg.heroSub;
+    document.getElementById('closing-title').textContent = this.cfg.closingTitle;
+    document.getElementById('closing-text').textContent = this.cfg.closingText;
+    document.getElementById('share-btn').addEventListener('click', async () => {
+      try { if(navigator.share) await navigator.share({ title:'Kado Digital', text:'Hadiah digital penuh cinta 💝', url:window.location.href }); else { navigator.clipboard.writeText(window.location.href); this.showToast('Link disalin! 🔗'); } } catch(e) { navigator.clipboard.writeText(window.location.href); this.showToast('Link disalin! 🔗'); }
+    });
+  },
+  buildContent() { this.buildTimeline(); this.buildGallery(); this.buildLetter(); this.buildQuotes(); },
+  buildTimeline() {
+    const container = document.getElementById('timeline-container');
+    container.innerHTML = '';
+    this.cfg.timeline.forEach(item => {
+      const el = document.createElement('div'); el.className = 'timeline-item';
+      el.innerHTML = `<div class="timeline-dot"></div><div class="timeline-date">${item.date}</div><h3 class="timeline-title">${item.title}</h3><p class="timeline-desc">${item.desc}</p>${item.photo?`<div class="timeline-photo"><img src="${item.photo}" loading="lazy"></div>`:''}`;
+      container.appendChild(el);
+    });
+  },
+  buildGallery() {
+    const container = document.getElementById('gallery-container');
+    container.innerHTML = '';
+    // HANYA tampilkan foto yang sudah diupload, tidak ada placeholder
+    this.galleryData = this.cfg.gallery.filter(g => g.url);
+    if (this.galleryData.length === 0) {
+      // Tampilkan empty state yang cantik
+      container.innerHTML = `
+        <div class="gallery-empty" style="column-span: all;">
+          <div class="gallery-empty-icon">🌸</div>
+          <p class="gallery-empty-title">Belum ada foto</p>
+          <p class="gallery-empty-desc">Tambahkan foto kenangan kalian melalui panel admin untuk menghias galeri ini</p>
+        </div>`;
+      return;
+    }
+    this.galleryData.forEach((item,i) => {
+      const el = document.createElement('div'); el.className='gallery-item'; el.dataset.index=i;
+      el.innerHTML=`<img src="${item.url}" alt="${item.caption}" loading="lazy"><div class="gallery-overlay"><span class="gallery-caption">${item.caption}</span></div>`;
+      el.addEventListener('click', () => this.openLightbox(i));
+      container.appendChild(el);
+    });
+  },
+  buildLetter() { document.getElementById('letter-greeting').textContent=`Hai ${this.cfg.recipient},`; document.getElementById('letter-signature').textContent=this.cfg.letterSignature; },
+  buildQuotes() {
+    const wrapper = document.getElementById('quotes-wrapper'); wrapper.innerHTML='';
+    this.cfg.quotes.forEach(q => {
+      const el=document.createElement('div'); el.className='quote-item';
+      el.innerHTML=`<span class="quote-mark">"</span><p class="quote-text">${q}</p><div class="quote-divider"></div>`;
+      wrapper.appendChild(el);
+    });
+  },
+  initHeroPetals() {
+    this.petalSystems.hero = new PetalSystem(document.getElementById('hero-petals'), { count:Math.floor(this.cfg.petalIntensity*0.8), type:this.cfg.flowerType, color:this.cfg.colorPrimary, color2:this.cfg.colorGold });
+    this.petalSystems.hero.start();
+    this.petalSystems.quotes = new PetalSystem(document.getElementById('quotes-petals'), { count:20, type:'heart', color:this.cfg.colorPrimary, color2:this.cfg.colorGold });
+  },
+  initScrollObserver() {
+    const mainScreen = document.getElementById('main-screen');
+    const sections = mainScreen.querySelectorAll('.section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) this.onSectionVisible(e.target); });
+    }, { root:mainScreen, threshold:0.2 });
+    sections.forEach(s => observer.observe(s));
+    const elemObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { root:mainScreen, threshold:0.15 });
+    mainScreen.querySelectorAll('.section-eyebrow,.section-title,.timeline-item,.gallery-item,.quote-item,.letter-paper,.bouquet-wrap').forEach(el => elemObs.observe(el));
+    mainScreen.addEventListener('scroll', () => {
+      const idx = Math.round(mainScreen.scrollTop / mainScreen.clientHeight);
+      this.updateNavDots(idx);
+    });
+  },
+  onSectionVisible(section) {
+    if (section.id==='quotes-section' && this.petalSystems.quotes && !this.petalSystems.quotes.running) this.petalSystems.quotes.start();
+    if (section.id==='letter-section' && !this.isTyping) { this.isTyping=true; setTimeout(()=>this.typeLetter(),800); }
+    if (section.id==='closing-section') setTimeout(()=>this.triggerClosing(),600);
+  },
+  typeLetter() {
+    const el = document.getElementById('letter-body-display');
+    const text = this.cfg.letter; let i=0; el.innerHTML='';
+    const cursor=document.createElement('span'); cursor.className='cursor'; el.appendChild(cursor);
+    const type=()=>{ if(i<text.length){ cursor.insertAdjacentText('beforebegin',text[i]); i++; this.letterInterval=setTimeout(type,text[i-1]==='\n'?100:30+Math.random()*20); }else cursor.remove(); };
+    type();
+  },
+  initLightbox() {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-close').addEventListener('click', ()=>lb.classList.remove('open'));
+    document.getElementById('lightbox-prev').addEventListener('click', ()=>{ this.lightboxIndex=(this.lightboxIndex-1+this.galleryData.length)%this.galleryData.length; this.showLightboxItem(); });
+    document.getElementById('lightbox-next').addEventListener('click', ()=>{ this.lightboxIndex=(this.lightboxIndex+1)%this.galleryData.length; this.showLightboxItem(); });
+    let tx=0;
+    lb.addEventListener('touchstart', e=>tx=e.touches[0].clientX);
+    lb.addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50){ if(dx<0)this.lightboxIndex=(this.lightboxIndex+1)%this.galleryData.length; else this.lightboxIndex=(this.lightboxIndex-1+this.galleryData.length)%this.galleryData.length; this.showLightboxItem(); } });
+    lb.addEventListener('click', e=>{ if(e.target===lb)lb.classList.remove('open'); });
+  },
+  openLightbox(i) { this.lightboxIndex=i; this.showLightboxItem(); document.getElementById('lightbox').classList.add('open'); },
+  showLightboxItem() { const item=this.galleryData[this.lightboxIndex]; if(!item)return; document.getElementById('lightbox-img').src=item.url; document.getElementById('lightbox-caption').textContent=item.caption; },
+  initConfetti() { this.confetti=new ConfettiSystem(document.getElementById('confetti-canvas')); },
+  triggerClosing() { if(this.confetti) this.confetti.start(); },
+  initNavDots() {
+    document.querySelectorAll('.nav-dot').forEach(dot => {
+      dot.addEventListener('click', ()=>{ const s=document.querySelectorAll('.section')[parseInt(dot.dataset.section)]; if(s)s.scrollIntoView({behavior:'smooth'}); });
+    });
+  },
+  updateNavDots(idx) { document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===idx)); },
+  showToast(msg) {
+    let t=document.querySelector('.toast'); if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t);}
+    t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);
+  }
+};
+
+// ============================================
+// ADMIN PANEL
+// ============================================
+const Admin = {
+  init() { this.loadFromConfig(); this.setupTabs(); this.setupButtons(); },
+  loadFromConfig() {
+    const c=window.KadoConfig;
+    this.sv('a-recipient',c.recipient); this.sv('a-pin',c.pin);
+    this.sv('a-opening-title',c.openingTitle); this.sv('a-opening-sub',c.openingSubtitle);
+    this.sv('a-hero-title',c.heroTitle); this.sv('a-intro-date',c.introDate);
+    this.sv('a-closing-title',c.closingTitle); this.sv('a-closing-text',c.closingText);
+    this.sv('a-letter',c.letter); this.sv('a-signature',c.letterSignature);
+    this.sv('a-quotes',c.quotes.join('\n'));
+    this.sv('a-music-title',c.musicTitle); this.sv('a-music-artist',c.musicArtist);
+    this.sv('a-color-primary',c.colorPrimary); this.sv('a-color-gold',c.colorGold);
+    this.sv('a-flower-type',c.flowerType); this.sv('a-petal-intensity',c.petalIntensity);
+  },
+  sv(id,val){const el=document.getElementById(id);if(el&&val!=null)el.value=val;},
+  gv(id){const el=document.getElementById(id);return el?el.value:'';},
+  setupTabs() {
+    document.querySelectorAll('.admin-tab').forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.admin-tab-content').forEach(c=>c.classList.remove('active'));
+        tab.classList.add('active');
+        const target=document.getElementById('tab-'+tab.dataset.tab);
+        if(target)target.classList.add('active');
+      });
+    });
+    document.getElementById('admin-close').addEventListener('click',()=>document.getElementById('admin-overlay').classList.remove('open'));
+    document.getElementById('admin-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('admin-overlay'))document.getElementById('admin-overlay').classList.remove('open');});
+  },
+  setupButtons() {
+    document.getElementById('admin-save').addEventListener('click',()=>this.save());
+    document.getElementById('admin-preview').addEventListener('click',()=>this.preview());
+  },
+  collectData() {
+    const uploadData = AdminUpload.collectUploadData();
+    const quotes = this.gv('a-quotes').split('\n').filter(q=>q.trim());
+    return {
+      recipient:this.gv('a-recipient'), pin:this.gv('a-pin').slice(0,4),
+      openingTitle:this.gv('a-opening-title'), openingSubtitle:this.gv('a-opening-sub'),
+      heroTitle:this.gv('a-hero-title'), introDate:this.gv('a-intro-date'),
+      closingTitle:this.gv('a-closing-title'), closingText:this.gv('a-closing-text'),
+      letter:this.gv('a-letter'), letterSignature:this.gv('a-signature'),
+      quotes:quotes.length>0?quotes:window.KadoConfig.quotes,
+      musicTitle:this.gv('a-music-title'), musicArtist:this.gv('a-music-artist'),
+      colorPrimary:this.gv('a-color-primary'), colorGold:this.gv('a-color-gold'),
+      flowerType:this.gv('a-flower-type'), petalIntensity:parseInt(this.gv('a-petal-intensity')),
+      timeline: window.KadoConfig.timeline,
+      ...uploadData
+    };
+  },
+  save() {
+    const data = this.collectData();
+    try {
+      localStorage.setItem('kado_config', JSON.stringify(data));
+      Object.assign(window.KadoConfig, data);
+      App.showToast('✅ Tersimpan! Muat ulang halaman untuk melihat perubahan.');
+      document.getElementById('admin-overlay').classList.remove('open');
+    } catch(e) {
+      if (e.name === 'QuotaExceededError') {
+        App.showToast('❌ Penyimpanan penuh! Kurangi jumlah/ukuran foto.');
+      } else {
+        App.showToast('❌ Gagal menyimpan: ' + e.message);
+      }
+    }
+  },
+  preview() {
+    const data = this.collectData();
+    Object.assign(window.KadoConfig, data);
+    App.applyConfig();
+    App.showToast('👁 Preview diterapkan');
+    document.getElementById('admin-overlay').classList.remove('open');
+    if (document.getElementById('main-screen').classList.contains('active')) App.buildContent();
+  }
+};
+
+// Admin trigger: triple tap pojok kanan atas
+let tapCount=0, tapTimer=null;
+document.getElementById('admin-trigger').addEventListener('click',()=>{
+  tapCount++; clearTimeout(tapTimer);
+  tapTimer=setTimeout(()=>tapCount=0,800);
+  if(tapCount>=3){tapCount=0;document.getElementById('admin-overlay').classList.add('open');}
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  App.init();
+  Admin.init();
+  AdminUpload.init();
+});
+</script>
+</body>
+</html>
